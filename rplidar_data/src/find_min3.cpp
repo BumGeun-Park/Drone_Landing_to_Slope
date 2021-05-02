@@ -61,7 +61,10 @@ int main(int argc, char **argv)
     printf("333333333333333333333333\n");
     ros::init(argc, argv, "find_min3");
     SubscribeAndPublish NH;
-    ros::spin();
+    while(ros::ok())
+    {
+    ros::spinOnce();
+    }
  
     return 0;
 }

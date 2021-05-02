@@ -53,7 +53,10 @@ int main(int argc, char **argv)
     printf("\x1b[37m""*****feedback3 node*****\n""\x1b[0m");
     ros::init(argc, argv, "feedback3");
     SubscribeAndPublish NH;
-    ros::spin();
+    while(ros::ok())
+    {
+    ros::spinOnce();
+    }
  
     return 0;
 }

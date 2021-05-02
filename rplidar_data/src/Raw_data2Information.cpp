@@ -26,8 +26,8 @@ public:
 			output.radius[i] = radius;
 			//ROS_INFO(": [%ld]", count);
 			//printf("[r,theta] = [%f,%f]", output.radius, output.radian);
-			//ROS_INFO("[r,theta] = [%f,%f]", output.radius[i], output.radian[i]);
-			//ROS_INFO("%f"output.radian[i]);
+                        //ROS_INFO("[r,theta] = [%f,%f]", output.radius[i], output.radian[i]);
+			//ROS_INFO("%f",output.radian[i]);
 		  }
 	pub_.publish(output);	
 	}
@@ -53,8 +53,9 @@ int main(int argc, char **argv)
     printf("\x1b[37m""*****Raw_data2Information node*****\n""\x1b[0m");
     ros::init(argc, argv, "Raw_data2Information");
     SubscribeAndPublish NH;
-    ros::Rate loop_rate(8000);
-    ros::spin();
- 
+    while(ros::ok())
+    {
+    ros::spinOnce();
+    }
     return 0;
 }

@@ -181,6 +181,8 @@ include_directories(
  add_executable(feedback3 src/feedback3.cpp)
  add_executable(feedback4 src/feedback4.cpp)
 
+ add_executable(control_theta src/control_theta.cpp)
+
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
 ## target back to the shorter version for ease of user use
@@ -219,6 +221,7 @@ include_directories(
  add_dependencies(feedback3 ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
  add_dependencies(feedback4 ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
+ add_dependencies(control_theta ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 
 ## Specify libraries to link a library or executable target against
@@ -324,6 +327,11 @@ target_link_libraries(feedback3
    ${Eigen_LIBRARIES}
  )
 target_link_libraries(feedback4
+   ${catkin_LIBRARIES}
+   ${Eigen_LIBRARIES}
+ )
+#################################################
+target_link_libraries(control_theta
    ${catkin_LIBRARIES}
    ${Eigen_LIBRARIES}
  )

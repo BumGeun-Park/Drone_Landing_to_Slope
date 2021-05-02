@@ -74,7 +74,10 @@ int main(int argc, char **argv)
     printf("Initial value : %f\n",(z_arr[0] + z_arr[1] + z_arr[2] + z_arr[3])/4);
     ros::init(argc, argv, "avg_z");
     SubscribeAndPublish NH;
-    ros::spin();
+    while(ros::ok())
+    {
+    ros::spinOnce();
+    }
  
     return 0;
 }

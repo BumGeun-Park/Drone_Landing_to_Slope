@@ -8,8 +8,9 @@
 #include "math.h"
 using namespace std;
 #define mapsize 40 //one direction -> 2*mapsize+1
-#define stepsize 1 //divisor of 2*mapsize+1
+#define stepsize 9 //divisor of 2*mapsize+1
 #define initial_value 1 //initial value of map
+#define show 1 // show : 1, not show : 0
 
 double local_map[2*mapsize+1][2*mapsize+1];
 double scaled_map[(2*mapsize+1)/stepsize][(2*mapsize+1)/stepsize];
@@ -114,23 +115,26 @@ public:
 		//ROS_INFO("a0,avg_z:%f,%f",a0,avg_z);
 
 //Show map(2D array)
-	    /*ROS_INFO("start\n");
+if(show==1)
+{
+	    ROS_INFO("start\n");
 	    for(int j=0; j<(2*mapsize+1)/stepsize;j++)
 	      {
 		for(int i=0; i<(2*mapsize+1)/stepsize;i++)
 		  {
-		    printf("%d, ",(int)local_map[i][j]);
+                    printf("%d, ",(int)scaled_map[i][j]);
 		  }
 		printf("\n");
 	      }
-	    printf("******************************************\n");*/
+	    printf("******************************************\n");
+}
 
 //(St-Sr)/St = r^2 ( 0 < r^2 < 1 )
 	    rplidar_data::alpha error;
 	    error.alpha = (Sum_St-Sum_Sr)/Sum_St;
 	    //error.alpha = sqrt(Sum_Sr/(81*81-3));
 	    pub_.publish(error);
-	//ROS_INFO("11111111,%d",mapsize);
+        ROS_INFO("%f",error.alpha);
         }
 private:
         ros::NodeHandle n_;
@@ -147,7 +151,7 @@ int main(int argc, char **argv)
       {
         for(int i=0; i<2*mapsize+1;i++)
           {
-            local_map[i][i] = initial_value;
+            local_map[i][j] = initial_value;
           }
         printf("\n");
       }
@@ -168,7 +172,10 @@ int main(int argc, char **argv)
 
     ros::init(argc, argv, "local_map");
     SubscribeAndPublish NH;
-    ros::spin();
+    while(ros::ok())
+    {
+    ros::spinOnce();
+    }
 
     return 0;
 }

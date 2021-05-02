@@ -16,7 +16,7 @@ int main(int argc, char **argv) //노드 메인 함수
 	{
 		t++;
 		double p = t*(3.14/2000);
-		msg.phi = 1.5*sin(p);
+                msg.phi = 0.33*sin(p);
 		ros_test_pub.publish(msg); //메시지 발행
 	}
 	return 0;

@@ -44,7 +44,10 @@ int main(int argc, char **argv)
     printf("\x1b[37m""*****alpha*****\n""\x1b[0m");
     ros::init(argc, argv, "alpha");
     SubscribeAndPublish NH;
-    ros::spin();
+    while(ros::ok())
+    {
+    ros::spinOnce();
+    }
  
     return 0;
 }

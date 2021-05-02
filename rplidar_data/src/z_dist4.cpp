@@ -53,8 +53,10 @@ int main(int argc, char **argv)
     printf("\x1b[37m""*****z_dist4 node*****\n""\x1b[0m");
     ros::init(argc, argv, "z_dist4");
     SubscribeAndPublish NH;
-    ros::Rate loop_rate(8000);
-    ros::spin();
+    while(ros::ok())
+    {
+    ros::spinOnce();
+    }
  
     return 0;
 }
