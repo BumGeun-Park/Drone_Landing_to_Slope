@@ -67,6 +67,7 @@ include_directories(${Eigen_INCLUDE_DIRS})
    phi.msg
    alpha.msg
    map.msg
+   time.msg
  )
 
 ## Generate services in the 'srv' folder
@@ -183,6 +184,16 @@ include_directories(
 
  add_executable(control_theta src/control_theta.cpp)
 
+ add_executable(proportional_controller1 src/proportional_controller1.cpp)
+ add_executable(proportional_controller2 src/proportional_controller2.cpp)
+ add_executable(proportional_controller3 src/proportional_controller3.cpp)
+ add_executable(proportional_controller4 src/proportional_controller4.cpp)
+
+ add_executable(integral_controller1 src/integral_controller1.cpp)
+ add_executable(integral_controller2 src/integral_controller2.cpp)
+ add_executable(integral_controller3 src/integral_controller3.cpp)
+ add_executable(integral_controller4 src/integral_controller4.cpp)
+
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
 ## target back to the shorter version for ease of user use
@@ -222,6 +233,16 @@ include_directories(
  add_dependencies(feedback4 ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
  add_dependencies(control_theta ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+
+ add_dependencies(proportional_controller1 ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+ add_dependencies(proportional_controller2 ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+ add_dependencies(proportional_controller3 ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+ add_dependencies(proportional_controller4 ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+
+ add_dependencies(integral_controller1 ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+ add_dependencies(integral_controller2 ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+ add_dependencies(integral_controller3 ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+ add_dependencies(integral_controller4 ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 
 ## Specify libraries to link a library or executable target against
@@ -335,7 +356,40 @@ target_link_libraries(control_theta
    ${catkin_LIBRARIES}
    ${Eigen_LIBRARIES}
  )
-
+#################################################
+target_link_libraries(proportional_controller1
+   ${catkin_LIBRARIES}
+   ${Eigen_LIBRARIES}
+ )
+target_link_libraries(proportional_controller2
+   ${catkin_LIBRARIES}
+   ${Eigen_LIBRARIES}
+ )
+target_link_libraries(proportional_controller3
+   ${catkin_LIBRARIES}
+   ${Eigen_LIBRARIES}
+ )
+target_link_libraries(proportional_controller4
+   ${catkin_LIBRARIES}
+   ${Eigen_LIBRARIES}
+ )
+#################################################
+target_link_libraries(integral_controller1
+   ${catkin_LIBRARIES}
+   ${Eigen_LIBRARIES}
+ )
+target_link_libraries(integral_controller2
+   ${catkin_LIBRARIES}
+   ${Eigen_LIBRARIES}
+ )
+target_link_libraries(integral_controller3
+   ${catkin_LIBRARIES}
+   ${Eigen_LIBRARIES}
+ )
+target_link_libraries(integral_controller4
+   ${catkin_LIBRARIES}
+   ${Eigen_LIBRARIES}
+ )
 
 
 #############

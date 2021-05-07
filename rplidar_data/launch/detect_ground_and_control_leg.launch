@@ -43,4 +43,14 @@
 
 	<node pkg = "rplidar_data" type="control_theta" name="control_theta"/>
 
+	<node pkg = "rplidar_data" type="proportional_controller1" name="proportional_controller1"/>
+	<node pkg = "rplidar_data" type="proportional_controller2" name="proportional_controller2"/>
+	<node pkg = "rplidar_data" type="proportional_controller3" name="proportional_controller3"/>
+	<node pkg = "rplidar_data" type="proportional_controller4" name="proportional_controller4"/>
+
+	<node pkg = "rplidar_data" type="integral_controller1" name="integral_controller1"/>
+	<node pkg = "rplidar_data" type="integral_controller2" name="integral_controller2"/>
+	<node pkg = "rplidar_data" type="integral_controller3" name="integral_controller3"/>
+	<node pkg = "rplidar_data" type="integral_controller4" name="integral_controller4"/>
+
 </launch>
