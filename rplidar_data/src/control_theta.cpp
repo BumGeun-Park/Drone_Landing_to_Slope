@@ -27,7 +27,7 @@ public:
 	      }
 	    double d = z_sum/(z_count+0.001); // If z_count is zero, theta.alpha is to be Inf. So, 0.001 can prevent this.
 	    rplidar_data::alpha theta;
-	    theta.alpha = atan(40/sqrt(0.4*0.4+d*d));
+            theta.alpha = atan(40/sqrt(40*40+d*d)); // 40 is half of the plane [cm]
 	    pub_.publish(theta);
 	  }
 

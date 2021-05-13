@@ -1,9 +1,8 @@
 <launch>
+
 	<node pkg = "rplidar_data" type="find_min1" name="find_min1"/>
 	<node pkg = "rplidar_data" type="find_min2" name="find_min2"/>
-
 	<node pkg = "rplidar_data" type="find_min3" name="find_min3"/>
 	<node pkg = "rplidar_data" type="find_min4" name="find_min4"/>
-
 
 </launch>

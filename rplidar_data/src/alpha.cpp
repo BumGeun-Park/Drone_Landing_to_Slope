@@ -4,6 +4,7 @@
 #include "rplidar_data/alpha.h"
 #include "math.h"
 #define DEG2RAD(x) ((x)*M_PI/180.)
+#define Angle_T 3
 
 class SubscribeAndPublish
 {
@@ -17,7 +18,7 @@ public:
 	void callback(const rplidar_data::xyz& IMU)//IMU 메시지 형식 바꿔주기
 	{
 		rplidar_data::alpha output;
-		double denominator = DEG2RAD(3.0)+0.05;
+                double denominator = DEG2RAD(Angle_T)+0.05;
 		output.alpha = 0.05/denominator;
 		pub_.publish(output);
 	}

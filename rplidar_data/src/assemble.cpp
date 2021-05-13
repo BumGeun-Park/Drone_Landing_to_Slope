@@ -44,7 +44,7 @@ public:
 			xyz.y[t] = 100*input1.radius[i]*cos(input1.radian[i])*sin(phi);
 			xyz.z[t] = 100*input1.radius[i]*cos(input1.radian[i])*cos(phi);
 			t++;
-                        //ROS_INFO("[x,y,z] = [%f,%f,%f],[cm]" , xyz.x[t], xyz.y[t],xyz.z[t]);
+                        ROS_INFO("[x,y,z] = [%f,%f,%f],[cm]" , xyz.x[t], xyz.y[t],xyz.z[t]);
 		  }
 	    }
 	  //ROS_INFO("[x,y,z] = [%f,%f,%f],[cm]" , xyz.x, xyz.y,xyz.z);

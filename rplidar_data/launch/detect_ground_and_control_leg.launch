@@ -1,56 +1,25 @@
 <launch>
 
   <node name="rplidarNode"          pkg="rplidar_ros"  type="rplidarNode" output="screen">
-  <param name="serial_port"         type="string" value="/dev/ttyUSB0"/>
-  <param name="scan_mode"           type="string"  value="Boost"/>
-  <param name="serial_baudrate"     type="int"    value="115200"/><!--A1/A2 -->
-  <!--param name="serial_baudrate"     type="int"    value="256000"--><!--A3 -->
+  <param name="serial_port"         type="string" value="/dev/ttyUSB0"/> 
+  <param name="scan_mode"           type="string"  value="DenseBoost"/> 
+  <param name="serial_baudrate"     type="int"    value="256000"/>
   <param name="frame_id"            type="string" value="laser"/>
   <param name="inverted"            type="bool"   value="false"/>
   <param name="angle_compensate"    type="bool"   value="true"/>
-  <param name="motor_pwm" value="1"/>
   </node>
 
-	<node pkg = "rplidar_data" type="Raw_data2Information" name="Raw_data2Information"/>
-	<node pkg = "rplidar_data" type="servo_motor" name="servo_motor"/>
-	<node pkg = "rplidar_data" type="assemble" name="assemble"/>
+	<include file="$(find rplidar_data)/launch/start.launch"/>
 
-	<node pkg = "rplidar_data" type="local_map" name="local_map"/>
+	<include file="$(find rplidar_data)/launch/find_minimum.launch"/>
+	<include file="$(find rplidar_data)/launch/Leg_servo.launch"/>
+	<include file="$(find rplidar_data)/launch/distance.launch"/>
 
-	<node pkg = "rplidar_data" type="find_min1" name="find_min1"/>
-	<node pkg = "rplidar_data" type="find_min2" name="find_min2"/>
-	<node pkg = "rplidar_data" type="find_min3" name="find_min3"/>
-	<node pkg = "rplidar_data" type="find_min4" name="find_min4"/>
+	<include file="$(find rplidar_data)/launch/feedback.launch"/>
+	<include file="$(find rplidar_data)/launch/proportional_controller.launch"/>
+	<include file="$(find rplidar_data)/launch/integral_controller.launch"/>
 
-	<node pkg = "rplidar_data" type="Leg_servo1" name="Leg_servo1"/>
-	<node pkg = "rplidar_data" type="Leg_servo2" name="Leg_servo2"/>
-	<node pkg = "rplidar_data" type="Leg_servo3" name="Leg_servo3"/>
-	<node pkg = "rplidar_data" type="Leg_servo4" name="Leg_servo4"/>
+	<include file="$(find rplidar_data)/launch/subfunction.launch"/>
 
-	<node pkg = "rplidar_data" type="z_dist1" name="z_dist1"/>
-	<node pkg = "rplidar_data" type="z_dist2" name="z_dist2"/>
-	<node pkg = "rplidar_data" type="z_dist3" name="z_dist3"/>
-	<node pkg = "rplidar_data" type="z_dist4" name="z_dist4"/>
-
-	<node pkg = "rplidar_data" type="feedback1" name="feedback1"/>
-	<node pkg = "rplidar_data" type="feedback2" name="feedback2"/>
-	<node pkg = "rplidar_data" type="feedback3" name="feedback3"/>
-	<node pkg = "rplidar_data" type="feedback4" name="feedback4"/>
-
-	<node pkg = "rplidar_data" type="avg_z" name="avg_z"/>
-
-	<node pkg = "rplidar_data" type="alpha" name="alpha"/>
-
-	<node pkg = "rplidar_data" type="control_theta" name="control_theta"/>
-
-	<node pkg = "rplidar_data" type="proportional_controller1" name="proportional_controller1"/>
-	<node pkg = "rplidar_data" type="proportional_controller2" name="proportional_controller2"/>
-	<node pkg = "rplidar_data" type="proportional_controller3" name="proportional_controller3"/>
-	<node pkg = "rplidar_data" type="proportional_controller4" name="proportional_controller4"/>
-
-	<node pkg = "rplidar_data" type="integral_controller1" name="integral_controller1"/>
-	<node pkg = "rplidar_data" type="integral_controller2" name="integral_controller2"/>
-	<node pkg = "rplidar_data" type="integral_controller3" name="integral_controller3"/>
-	<node pkg = "rplidar_data" type="integral_controller4" name="integral_controller4"/>
 
 </launch>
