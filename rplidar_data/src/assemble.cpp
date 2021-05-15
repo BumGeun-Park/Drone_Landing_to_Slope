@@ -5,7 +5,7 @@
 #include "rplidar_data/alpha.h"
 #include "math.h"
 #define DEG2RAD(x) ((x)*M_PI/180)
-#define detect_angle 20 // (deg)
+#define detect_angle 3 // (deg)
 double phi = 0.0;
 double Theta = DEG2RAD(detect_angle);
 
@@ -27,7 +27,7 @@ public:
 	  int t = 0;
 	  for(int i = 0; i<count ; i++)
 	    {
-		if(input1.radian[i] < Theta & input1.radian[i] > -Theta)
+                if(input1.radian[i] < DEG2RAD(-180)+Theta | input1.radian[i] > DEG2RAD(180)-Theta)
 		  {
 			new_count++;
 		  }
@@ -38,11 +38,11 @@ public:
 	  xyz.count = new_count;
 	  for(int i = 0; i<count ; i++)
 	    {
-		if(input1.radian[i] < Theta & input1.radian[i] > -Theta)
+                if(input1.radian[i] < DEG2RAD(-180)+Theta | input1.radian[i] > DEG2RAD(180)-Theta)
 		  {
-			xyz.x[t] = 100*(-input1.radius[i])*sin(input1.radian[i]);
-			xyz.y[t] = 100*input1.radius[i]*cos(input1.radian[i])*sin(phi);
-			xyz.z[t] = 100*input1.radius[i]*cos(input1.radian[i])*cos(phi);
+                        xyz.x[t] = 100*(-input1.radius[i])*-1*sin(input1.radian[i]);
+                        xyz.y[t] = 100*input1.radius[i]*-1*cos(input1.radian[i])*sin(phi);
+                        xyz.z[t] = 100*input1.radius[i]*-1*cos(input1.radian[i])*cos(phi);
 			t++;
                         ROS_INFO("[x,y,z] = [%f,%f,%f],[cm]" , xyz.x[t], xyz.y[t],xyz.z[t]);
 		  }

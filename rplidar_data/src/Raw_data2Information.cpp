@@ -1,6 +1,7 @@
 #include "ros/ros.h" 
 #include "sensor_msgs/LaserScan.h"
 #include "rplidar_data/polar.h"
+#define bias 0.01 //bias is 1cm
 
 class SubscribeAndPublish
 {
@@ -22,8 +23,8 @@ public:
 		  {
 			double radian = (input.angle_min + input.angle_increment * i);
 			double radius = input.ranges[i];
-        		output.radian[i] = radian;
-			output.radius[i] = radius;
+                        output.radian[i] = radian;
+                        output.radius[i] = radius + bias;
 			//ROS_INFO(": [%ld]", count);
 			//printf("[r,theta] = [%f,%f]", output.radius, output.radian);
                         //ROS_INFO("[r,theta] = [%f,%f]", output.radius[i], output.radian[i]);

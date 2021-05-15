@@ -1,6 +1,6 @@
 #include <iostream>
 #include "ros/ros.h"
-#include "rplidar_data/xyz.h"//IMU 메시지 형식 바꿔주기
+#include "sensor_msgs/Imu.h"
 #include "rplidar_data/alpha.h"
 #include "math.h"
 #define DEG2RAD(x) ((x)*M_PI/180.)
@@ -15,8 +15,9 @@ public:
 	sub_ = n_.subscribe("/IMU_data",1,&SubscribeAndPublish::callback,this);
 	}
 	
-	void callback(const rplidar_data::xyz& IMU)//IMU 메시지 형식 바꿔주기
+        void callback(const sensor_msgs::Imu& IMU)
 	{
+            ROS_INFO("%f",IMU.orientation.x);
 		rplidar_data::alpha output;
                 double denominator = DEG2RAD(Angle_T)+0.05;
 		output.alpha = 0.05/denominator;

@@ -16,6 +16,7 @@ public:
 	{
 	  rplidar_data::alpha output;
 	  output.alpha = Kp*error.alpha;
+          ROS_INFO("%f",output.alpha);
 	  pub_.publish(output);	
 	}
 private:

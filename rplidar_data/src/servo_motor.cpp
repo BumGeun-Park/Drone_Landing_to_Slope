@@ -1,24 +1,27 @@
 #include "ros/ros.h"
 #include "rplidar_data/phi.h"
 #include "math.h"
-//여가//기에모터정보에대한메시지헤더파일추가
+#include "sensor_msgs/JointState.h"
+
+#define RAD2DATA(x) ((x)*(2047/M_PI)+2048)
+#define DATA2RAD(x) ((x)-2048)*(M_PI/2047)
+
 class SubscribeAndPublish
 {
 public:
         SubscribeAndPublish()
         {
         pub_ = n_.advertise<rplidar_data::phi>("/phi",1);
-        sub_ = n_.subscribe("/scan",1,&SubscribeAndPublish::callback,this);
+        sub_ = n_.subscribe("/dynamixel_workbench/joint_states",1,&SubscribeAndPublish::callback,this);
         }
-void callback(const rplidar_data::phi& input)
-{
-}
 
-        /*void callback(const sensor_msgs::LaserScan& input)
-        {
-            output.phi = input.position;
-            pub_.publish(output);
-        }*/
+	void callback(const sensor_msgs::JointState& input)
+	  {
+	    rplidar_data::phi output;
+	    output.phi = input.position[0]; // ID1(라이다 모터)
+	    pub_.publish(output);
+	  }
+
 private:
         ros::NodeHandle n_;
         ros::Publisher pub_;

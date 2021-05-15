@@ -3,6 +3,7 @@
 #include "rplidar_data/time.h"
 
 #define Ki 3 //Integral gain
+#define Limit_value 3333.3
 
 double dt;
 double Sum;
@@ -39,8 +40,17 @@ public:
 	  double e = error.alpha;
 	  Sum += e*dt;
 	  dt_prev = dt_now;
-	  rplidar_data::alpha output;
+          rplidar_data::alpha output;
+          if (Sum>Limit_value)
+          {
+              Sum = Limit_value;
+          }
+          if (Sum<-Limit_value)
+          {
+              Sum = -Limit_value;
+          }
 	  output.alpha = Ki*Sum;
+          ROS_INFO("%f",output.alpha);
 	  pub_.publish(output);	
 	}
 private:
