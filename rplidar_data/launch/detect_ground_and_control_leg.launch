@@ -21,5 +21,6 @@
 
 	<include file="$(find rplidar_data)/launch/subfunction.launch"/>
 
+	<include file="$(find rplidar_data)/launch/dynamixel.launch"/>
 
 </launch>
