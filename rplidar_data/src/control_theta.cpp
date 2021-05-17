@@ -17,7 +17,7 @@ public:
 	    int count = xyz.count;
 	    double z_sum = 0.0;
 	    int z_count = 0;
-	    for(int i = 0; i<count; i++)
+            for(int i = 0; i<count; ++i)
 	      {
 		if(xyz.z[i]<1000.0)
 		  {

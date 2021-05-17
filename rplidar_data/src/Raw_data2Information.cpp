@@ -19,7 +19,7 @@ public:
 	output.count = count;
 	output.radian.resize(count);
 	output.radius.resize(count);
-		for(int i = 0; i < count; i++)
+                for(int i = 0; i < count; ++i)
 		  {
 			double radian = (input.angle_min + input.angle_increment * i);
 			double radius = input.ranges[i];

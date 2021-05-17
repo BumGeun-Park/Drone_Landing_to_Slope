@@ -10,17 +10,12 @@
   </node>
 
 	<include file="$(find rplidar_data)/launch/start.launch"/>
-
-	<include file="$(find rplidar_data)/launch/find_minimum.launch"/>
-	<include file="$(find rplidar_data)/launch/Leg_servo.launch"/>
-	<include file="$(find rplidar_data)/launch/distance.launch"/>
-
-	<include file="$(find rplidar_data)/launch/feedback.launch"/>
-	<include file="$(find rplidar_data)/launch/proportional_controller.launch"/>
-	<include file="$(find rplidar_data)/launch/integral_controller.launch"/>
-
 	<include file="$(find rplidar_data)/launch/subfunction.launch"/>
-
 	<include file="$(find rplidar_data)/launch/dynamixel.launch"/>
+
+	<node pkg = "rplidar_data" type="find_min" name="find_min"/>
+	<node pkg = "rplidar_data" type="Leg_servo" name="Leg_servo"/>
+	<node pkg = "rplidar_data" type="PI_controller" name="PI_controller"/>
+	<node pkg = "rplidar_data" type="z_dist_error" name="z_dist_error"/>
 
 </launch>
