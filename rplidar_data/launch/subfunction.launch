@@ -1,0 +1,7 @@
+<launch>
+
+	<node pkg = "rplidar_data" type="alpha" name="alpha"/>
+	<node pkg = "rplidar_data" type="control_theta" name="control_theta"/>
+	<node pkg = "rplidar_data" type="local_map" name="local_map"/>
+
+</launch>

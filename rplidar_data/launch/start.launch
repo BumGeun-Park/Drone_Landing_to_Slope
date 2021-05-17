@@ -1,0 +1,7 @@
+<launch>
+
+	<node pkg = "rplidar_data" type="Raw_data2Information" name="Raw_data2Information"/>
+	<node pkg = "rplidar_data" type="assemble" name="assemble"/>
+	<node pkg = "rplidar_data" type="servo_motor" name="servo_motor"/>
+
+</launch>
