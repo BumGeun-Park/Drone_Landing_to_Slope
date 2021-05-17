@@ -1,8 +1,0 @@
-<launch>
-
-	<node pkg = "rplidar_data" type="Leg_servo1" name="Leg_servo1"/>
-	<node pkg = "rplidar_data" type="Leg_servo2" name="Leg_servo2"/>
-	<node pkg = "rplidar_data" type="Leg_servo3" name="Leg_servo3"/>
-	<node pkg = "rplidar_data" type="Leg_servo4" name="Leg_servo4"/>
-
-</launch>

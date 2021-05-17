@@ -1,8 +1,0 @@
-<launch>
-
-	<node pkg = "rplidar_data" type="feedback1" name="feedback1"/>
-	<node pkg = "rplidar_data" type="feedback2" name="feedback2"/>
-	<node pkg = "rplidar_data" type="feedback3" name="feedback3"/>
-	<node pkg = "rplidar_data" type="feedback4" name="feedback4"/>
-
-</launch>

@@ -1,9 +1,0 @@
-<launch>
-
-	<node pkg = "rplidar_data" type="z_dist1" name="z_dist1"/>
-	<node pkg = "rplidar_data" type="z_dist2" name="z_dist2"/>
-	<node pkg = "rplidar_data" type="z_dist3" name="z_dist3"/>
-	<node pkg = "rplidar_data" type="z_dist4" name="z_dist4"/>
-	<node pkg = "rplidar_data" type="avg_z" name="avg_z"/>
-
-</launch>

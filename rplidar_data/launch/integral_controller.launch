@@ -1,8 +1,0 @@
-<launch>
-
-	<node pkg = "rplidar_data" type="integral_controller1" name="integral_controller1"/>
-	<node pkg = "rplidar_data" type="integral_controller2" name="integral_controller2"/>
-	<node pkg = "rplidar_data" type="integral_controller3" name="integral_controller3"/>
-	<node pkg = "rplidar_data" type="integral_controller4" name="integral_controller4"/>
-
-</launch>

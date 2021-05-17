@@ -1,8 +1,0 @@
-<launch>
-
-	<node pkg = "rplidar_data" type="proportional_controller1" name="proportional_controller1"/>
-	<node pkg = "rplidar_data" type="proportional_controller2" name="proportional_controller2"/>
-	<node pkg = "rplidar_data" type="proportional_controller3" name="proportional_controller3"/>
-	<node pkg = "rplidar_data" type="proportional_controller4" name="proportional_controller4"/>
-
-</launch>
