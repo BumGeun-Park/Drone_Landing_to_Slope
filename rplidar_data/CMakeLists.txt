@@ -96,8 +96,8 @@ include_directories(
  target_link_libraries(control_theta ${catkin_LIBRARIES} ${Eigen_LIBRARIES})
 
 
- add_executable(PI_controller src/PI_controller.cpp)
- add_dependencies(PI_controller ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
- target_link_libraries(PI_controller ${catkin_LIBRARIES} ${Eigen_LIBRARIES})
+ add_executable(PID_controller src/PID_controller.cpp)
+ add_dependencies(PID_controller ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+ target_link_libraries(PID_controller ${catkin_LIBRARIES} ${Eigen_LIBRARIES})
 
 
