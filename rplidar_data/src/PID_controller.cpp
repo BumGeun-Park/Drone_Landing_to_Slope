@@ -27,6 +27,9 @@ double theta_dot[4];
 
 double error_dot[4];
 
+double Roll_alpha;
+double Pitch_alpha;
+
 rplidar_data::time t;
 int count = 0;
 
@@ -38,6 +41,7 @@ public:
         pub_ = n_.advertise<rplidar_data::packet>("/feedback",1);
         sub_ = n_.subscribe("/error",1,&SubscribeAndPublish::callback1,this);
         sub_2 = n_.subscribe("/dynamixel_workbench/joint_states",1,&SubscribeAndPublish::callback2,this);
+        sub_3 = n_.subscribe("/alpha_RP",1,&SubscribeAndPublish::callback3,this);
 	}
 	
         void callback1(const rplidar_data::packet& error)
@@ -137,11 +141,17 @@ public:
             theta[3] = input.position[Leg4];
             theta_dot[3] = input.velocity[Leg4];
         }
+        void callback3(const rplidar_data::packet& input)
+        {
+            Roll_alpha = input.packet[0];
+            Pitch_alpha = input.packet[1];
+        }
 private:
 	ros::NodeHandle n_;
 	ros::Publisher pub_;
 	ros::Subscriber sub_;
         ros::Subscriber sub_2;
+        ros::Subscriber sub_3;
 };
 
 int main(int argc, char **argv)
