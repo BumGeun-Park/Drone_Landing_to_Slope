@@ -1,7 +1,0 @@
-<launch>
-
-	<node pkg = "dynamixel_workbench_controllers" type="write" name="write"/>
-	<node pkg = "dynamixel_workbench_controllers" type="leg" name="leg"/>
-	<include file="$(find dynamixel_workbench_controllers)/launch/steer.launch"/>
-
-</launch>
