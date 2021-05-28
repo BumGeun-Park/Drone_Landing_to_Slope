@@ -42,9 +42,9 @@ public:
 	    {
                 if(input1.radian[i] < DEG2RAD(-180)+Theta | input1.radian[i] > DEG2RAD(180)-Theta)
 		  {
-                        xyz.x[t] = -100*input1.radius[i]*cos(input1.radian[i])*sin(phi) + xb -xb*cos(phi) - zb*sin(phi);
+                        xyz.x[t] = -100*input1.radius[i]*cos(input1.radian[i])*sin(phi) + xb*cos(phi) + zb*sin(phi);
                         xyz.y[t] = -100*input1.radius[i]*sin(input1.radian[i]);
-                        xyz.z[t] = -100*input1.radius[i]*cos(input1.radian[i])*cos(phi) + zb -zb*cos(phi) + xb*sin(phi);
+                        xyz.z[t] = -100*input1.radius[i]*cos(input1.radian[i])*cos(phi) + zb*cos(phi) - xb*sin(phi);
 			t++;  
 		  }
 	    }
