@@ -8,7 +8,7 @@
 #include "math.h"
 using namespace std;
 #define mapsize 40 //one direction -> 2*mapsize+1
-#define stepsize 9 //divisor of 2*mapsize+1
+#define stepsize 3 //divisor of 2*mapsize+1
 #define initial_value 1 //initial value of map
 #define show 1 // show : 1, not show : 0
 
@@ -26,10 +26,11 @@ public:
 
         void callback(const rplidar_data::xyz& input)
         {
+            int t = ((2*mapsize+1)/stepsize-1)/2;
             Eigen::Matrix<float,3,1> b;
-	    A(0,0) = (2*mapsize+1)*(2*mapsize+1); A(0,1) = 0.0; A(0,2) = 0.0;
-	    A(1,0) = 0.0; A(1,1) = (2*mapsize+1)*2*(mapsize*(mapsize+1)*(2*mapsize+1)/6); A(1,2) = 0.0;
-	    A(2,0) = 0.0; A(2,1) = 0.0; A(2,2) = (2*mapsize+1)*2*(mapsize*(mapsize+1)*(2*mapsize+1)/6);
+            A(0,0) = ((2*mapsize+1)/stepsize)*((2*mapsize+1)/stepsize); A(0,1) = 0.0; A(0,2) = 0.0;
+            A(1,0) = 0.0; A(1,1) = ((2*mapsize+1)/stepsize)*2*(stepsize*stepsize*t*(t+1)*(2*t+1)/6); A(1,2) = 0.0;
+            A(2,0) = 0.0; A(2,1) = 0.0; A(2,2) = ((2*mapsize+1)/stepsize)*2*(stepsize*stepsize*t*(t+1)*(2*t+1)/6);
 
 	    double Sum_Sr = 0.0;
 	    double Sum_St = 0.0;

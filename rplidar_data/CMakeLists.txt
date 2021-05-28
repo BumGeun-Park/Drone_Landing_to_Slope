@@ -100,4 +100,7 @@ include_directories(
  add_dependencies(PID_controller ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
  target_link_libraries(PID_controller ${catkin_LIBRARIES} ${Eigen_LIBRARIES})
 
+ add_executable(test_xy src/test_xy.cpp)
+ add_dependencies(test_xy ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+ target_link_libraries(test_xy ${catkin_LIBRARIES} ${Eigen_LIBRARIES})
 

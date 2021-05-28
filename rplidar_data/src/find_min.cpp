@@ -5,7 +5,7 @@
 #include "math.h"
 
 #define length 16
-#define z_bias 0.1
+#define z_bias 0.001
 
 #define x1 +length
 #define y1 -length
