@@ -5,7 +5,7 @@
 #include "rplidar_data/alpha.h"
 #include "math.h"
 #define DEG2RAD(x) ((x)*M_PI/180)
-#define detect_angle 3 // (deg)
+#define detect_angle 45 // (deg)
 #define xb 0
 #define zb 0
 double phi = 0.0;
@@ -19,7 +19,6 @@ public:
 	pub_ = n_.advertise<rplidar_data::xyz>("/xyz",1);
 	sub_1 = n_.subscribe("/polar",1,&SubscribeAndPublish::callback1,this);
 	sub_2 = n_.subscribe("/phi",1,&SubscribeAndPublish::callback2,this);
-	sub_3 = n_.subscribe("/controled_theta",1,&SubscribeAndPublish::callback3,this);
 	}
 
 	void callback1(const rplidar_data::polar& input1)
@@ -29,7 +28,7 @@ public:
 	  int t = 0;
           for(int i = 0; i<count ; ++i)
 	    {
-                if(input1.radian[i] < DEG2RAD(-180)+Theta | input1.radian[i] > DEG2RAD(180)-Theta)
+                if(input1.radian[i] < DEG2RAD(-180)+Theta || input1.radian[i] > DEG2RAD(180)-Theta)
 		  {
 			new_count++;
 		  }
@@ -40,33 +39,23 @@ public:
 	  xyz.count = new_count;
           for(int i = 0; i<count ; ++i)
 	    {
-                if(input1.radian[i] < DEG2RAD(-180)+Theta | input1.radian[i] > DEG2RAD(180)-Theta)
+                if(input1.radian[i] < DEG2RAD(-180)+Theta || input1.radian[i] > DEG2RAD(180)-Theta)
 		  {
                         xyz.x[t] = -100*input1.radius[i]*cos(input1.radian[i])*sin(phi) + xb*cos(phi) + zb*sin(phi);
-                        xyz.y[t] = -100*input1.radius[i]*sin(input1.radian[i]);
+                        xyz.y[t] = +100*input1.radius[i]*sin(input1.radian[i]);
                         xyz.z[t] = -100*input1.radius[i]*cos(input1.radian[i])*cos(phi) + zb*cos(phi) - xb*sin(phi);
+                        ROS_INFO("[x,y,z] = %f,%f,%f",xyz.x[t],xyz.y[t],xyz.z[t]);
 			t++;  
 		  }
 	    }
-          //check///////////////////////////////////////////////////////////////////////////////
-          printf("\x1b[34m""[checking operation(polar coordinate)]""\x1b[0m");
-
           pub_.publish(xyz);
 	}
 
 	void callback2(const rplidar_data::phi& input2)
 	{
 	phi = input2.phi;
-        //check///////////////////////////////////////////////////////////////////////////////
-        printf("\x1b[34m""[checking operation(servo motor)]""\x1b[0m");
 	}
 
-	void callback3(const rplidar_data::alpha& theta)
-	{
-	Theta = theta.alpha;
-        //check///////////////////////////////////////////////////////////////////////////////
-        printf("\x1b[34m""[checking operation(control limitation of theta)]""\x1b[0m");
-	}
 
 private:
 	ros::NodeHandle n_;

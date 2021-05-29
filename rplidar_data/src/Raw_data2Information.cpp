@@ -6,36 +6,49 @@
 class SubscribeAndPublish
 {
 public:
-	SubscribeAndPublish()
-	{
-	pub_ = n_.advertise<rplidar_data::polar>("/polar",1);
-	sub_ = n_.subscribe("/scan",1,&SubscribeAndPublish::callback,this);
-	}
-	
-	void callback(const sensor_msgs::LaserScan& input)
-	{
-	int count = input.scan_time / input.time_increment;
-	rplidar_data::polar output;
-	output.count = count;
-	output.radian.resize(count);
-	output.radius.resize(count);
-                for(int i = 0; i < count; ++i)
-		  {
-			double radian = (input.angle_min + input.angle_increment * i);
-			double radius = input.ranges[i];
-                        output.radian[i] = radian;
-                        output.radius[i] = radius + bias;
+    SubscribeAndPublish()
+    {
+        pub_ = n_.advertise<rplidar_data::polar>("/polar",1);
+        sub_ = n_.subscribe("/scan",1,&SubscribeAndPublish::callback,this);
+    }
 
-                        //check///////////////////////////////////////////////////////////////////////////////
-                        printf("\x1b[34m""[checking operation]""\x1b[0m");
-                        ROS_INFO("[r,theta] = [%f,%f]", output.radius[i], output.radian[i]);
-		  }
-	pub_.publish(output);	
-	}
+    void callback(const sensor_msgs::LaserScan& input)
+    {
+        int count = input.scan_time / input.time_increment;
+        int n = 0;
+        for(int i = 0; i < count; ++i)
+        {
+            if (input.ranges[i]<40)
+            {
+                ++n;
+            }
+        }
+        rplidar_data::polar output;
+        output.count = n;
+        output.radian.resize(n);
+        output.radius.resize(n);
+        int k = 0;
+        for(int i = 0; i < count; ++i)
+        {
+            double radian = input.angle_min + input.angle_increment * i;
+            double radius = input.ranges[i];
+            if (radius<40.0 && radius>0)
+            {
+                output.radian[k] = radian;
+                output.radius[k] = radius + bias;
+
+                //check///////////////////////////////////////////////////////////////////////////////
+                printf("\x1b[34m""[checking operation]""\x1b[0m");
+                ROS_INFO("[r,theta] = [%f,%f]", output.radius[k], output.radian[k]);
+                ++k;
+            }
+        }
+        pub_.publish(output);
+    }
 private:
-	ros::NodeHandle n_;
-	ros::Publisher pub_;
-	ros::Subscriber sub_;
+    ros::NodeHandle n_;
+    ros::Publisher pub_;
+    ros::Subscriber sub_;
 };
 
 
@@ -56,7 +69,7 @@ int main(int argc, char **argv)
     SubscribeAndPublish NH;
     while(ros::ok())
     {
-    ros::spinOnce();
+        ros::spinOnce();
     }
     return 0;
 }

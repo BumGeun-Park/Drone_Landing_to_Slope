@@ -81,6 +81,8 @@ public:
                       }
 		  }
 		pub_.publish(z);
+                printf("\x1b[34m""[checking operation(polar coordinate)]""\x1b[0m");
+                ROS_INFO("[dist1,dist2,dist3,dist4] = [%f,%f,%f,%f]",dist1,dist2,dist3,dist4);
 		dist1 = dist1+z_bias;
                 dist2 = dist2+z_bias;
                 dist3 = dist3+z_bias;

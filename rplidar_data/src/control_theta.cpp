@@ -31,7 +31,7 @@ public:
 
             //check///////////////////////////////////////////////////////////////////////////////
             printf("\x1b[34m""[checking operation(polar coordinate)]""\x1b[0m");
-            ROS_INFO("Altitude: %d",d);
+            ROS_INFO("Altitude: %f",d);
 	    pub_.publish(theta);
 	  }
 
