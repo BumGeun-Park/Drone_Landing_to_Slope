@@ -3,10 +3,10 @@
 #include "rplidar_data/time.h"
 #include "sensor_msgs/JointState.h"
 
-#define Ki 3 //Integral gain
-#define Kp 3 //Proportional gain
-#define Kd 3 //Derivative gain
-#define Limit_value 3333.3
+#define Ki 1 //Integral gain
+#define Kp 1 //Proportional gain
+#define Kd 1 //Derivative gain
+#define Limit_value 500
 
 #define Leg1 1
 #define Leg2 2
@@ -16,7 +16,7 @@
 
 #define DEG2RAD(x) ((x)*M_PI/180)
 #define upper_limit DEG2RAD(46) // 46 deg
-#define lower_limit DEG2RAD(10) // -10 deg
+#define lower_limit DEG2RAD(-10) // -10 deg
 
 double dt;
 double Sum1;
@@ -125,6 +125,9 @@ public:
           {
               Sum4 = -Limit_value;
           }
+          //ROS_INFO("sum1,sum2,sum3,sum4: %f,%f,%f,%f",Sum1,Sum2,Sum3,Sum4); // I_error
+          //ROS_INFO("sum1,sum2,sum3,sum4: %f,%f,%f,%f",error.packet[0],error.packet[1],error.packet[2],error.packet[3]); // P_error
+          //ROS_INFO("sum1,sum2,sum3,sum4: %f,%f,%f,%f",error_dot[0],error_dot[1],error_dot[2],error_dot[3]); // // D_error
 
           output.packet[0] = Ki*Sum1 + Kp*error.packet[0] + Kd*error_dot[0];
           output.packet[1] = Ki*Sum2 + Kp*error.packet[1] + Kd*error_dot[1];
@@ -189,6 +192,7 @@ int main(int argc, char **argv)
     Sum2 = 0.0;
     Sum3 = 0.0;
     Sum4 = 0.0;
+    dt = 0.0;
     printf("\n");
     printf("\n");
     printf("This is PID_controller node!\n");
