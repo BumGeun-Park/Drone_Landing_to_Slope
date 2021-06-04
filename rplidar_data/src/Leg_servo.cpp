@@ -4,9 +4,9 @@
 #include "sensor_msgs/JointState.h"
 
 // Hardware spec
-#define Leg_length 35
-#define Arm_length 15
-#define motor_z 0
+#define Leg_length 33.8
+#define Arm_length 10
+#define motor_z -9
 //
 
 #define Leg1 1

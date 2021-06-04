@@ -4,7 +4,7 @@
 #include "rplidar_data/packet.h"
 #include "math.h"
 
-#define length 16
+#define length 11.25
 #define z_bias 0.001
 
 #define x1 +length
@@ -114,7 +114,7 @@ int main(int argc, char **argv)
     printf("\n");
     printf("\x1b[34m""Output : /packet\n""\x1b[0m");
     printf("\n");
-    printf("*****find_min1 node*****\n""\x1b[0m");
+    printf("*****find_min node*****\n""\x1b[0m");
     ros::init(argc, argv, "find_min");
     SubscribeAndPublish NH;
     while(ros::ok())
