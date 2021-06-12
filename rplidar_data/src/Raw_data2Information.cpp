@@ -24,6 +24,8 @@ public:
             }
         }
         rplidar_data::polar output;
+        output.sec = input.header.stamp.sec;
+        output.nsec = input.header.stamp.nsec;
         output.count = n;
         output.radian.resize(n);
         output.radius.resize(n);

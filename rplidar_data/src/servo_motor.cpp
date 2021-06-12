@@ -16,6 +16,9 @@ public:
 	  {
 	    rplidar_data::phi output;
             output.phi = input.position[0]; // ID1(Lidar motor)
+            output.vel = input.velocity[0]; // ID1(Lidar motor)
+            output.sec = input.header.stamp.sec;
+            output.nsec = input.header.stamp.nsec;
 
             //check///////////////////////////////////////////////////////////////////////////////
             printf("\x1b[34m""[checking operation]""\x1b[0m");
