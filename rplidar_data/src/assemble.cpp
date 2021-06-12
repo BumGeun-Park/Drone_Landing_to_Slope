@@ -3,6 +3,10 @@
 #include "sensor_msgs/JointState.h"
 #include "rplidar_data/xyz.h"
 #include "math.h"
+#include <message_filters/subscriber.h>
+#include <message_filters/time_synchronizer.h>
+#include <boost/bind.hpp>
+
 #define DEG2RAD(x) ((x)*M_PI/180)
 #define detect_angle 60 // (deg)
 #define xb 0
@@ -13,6 +17,8 @@ double Theta = DEG2RAD(detect_angle);
 double motor_time;
 double vel = 0.0;
 
+using namespace message_filters;
+
 class SubscribeAndPublish
 {
 public:
@@ -21,6 +27,11 @@ public:
         pub_ = n_.advertise<rplidar_data::xyz>("/xyz",1);
         sub_1 = n_.subscribe("/scan",1,&SubscribeAndPublish::callback1,this);
         sub_2 = n_.subscribe("/dynamixel_workbench/joint_states",1,&SubscribeAndPublish::callback2,this);
+        /*message_filters::Subscriber<sensor_msgs::LaserScan> sub_1(n_, "/scan", 1);
+        message_filters::Subscriber<sensor_msgs::JointState> sub_2(n_, "/dynamixel_workbench/joint_states", 1);
+        TimeSynchronizer<sensor_msgs::LaserScan, sensor_msgs::JointState> sync(sub_1, sub_2);
+        boost::bind(&SubscribeAndPublish::callback1, _1, _2);
+        sync.registerCallback(boost::bind(&SubscribeAndPublish::callback1,this, _1, _2));*/
     }
 
     void callback1(const sensor_msgs::LaserScan& input1)
@@ -52,10 +63,6 @@ public:
                 {
                     radian[k] = rad;
                     radius[k] = input1.ranges[i] + bias;
-
-                    //check///////////////////////////////////////////////////////////////////////////////
-                    printf("\x1b[34m""[checking operation]""\x1b[0m");
-                    ROS_INFO("[r,theta] = [%f,%f]", radius[k], radian[k]);
                     ++k;
                 }
             }
@@ -64,6 +71,8 @@ public:
         double nsec = input1.header.stamp.nsec/1000000000.0;
         double Lidar_time = sec+nsec;
         double dt = Lidar_time - motor_time;
+        dt = 0;
+        //ROS_INFO("%f",dt);
         phi = phi + vel*dt;
 
         rplidar_data::xyz xyz;
@@ -77,7 +86,6 @@ public:
             xyz.x[i] = -100*radius[i]*cos(radian[i])*sin(phi) + xb*cos(phi) + zb*sin(phi);
             xyz.y[i] = +100*radius[i]*sin(radian[i]);
             xyz.z[i] = -100*radius[i]*cos(radian[i])*cos(phi) + zb*cos(phi) - xb*sin(phi);
-            ROS_INFO("[x,y,z] = %f,%f,%f",xyz.x[i],xyz.y[i],xyz.z[i]);
         }
         pub_.publish(xyz);
     }

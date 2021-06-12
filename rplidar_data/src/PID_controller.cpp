@@ -86,12 +86,9 @@ public:
         rplidar_data::packet output;
         output.packet.resize(4);
 
-        Sum1 = ((int)(Sum1/Limit_value))*Limit_value+(1-(int)(Sum1/Limit_value))*Sum1;
-        Sum2 = ((int)(Sum2/Limit_value))*Limit_value+(1-(int)(Sum2/Limit_value))*Sum2;
-        Sum3 = ((int)(Sum3/Limit_value))*Limit_value+(1-(int)(Sum3/Limit_value))*Sum3;
-        Sum4 = ((int)(Sum4/Limit_value))*Limit_value+(1-(int)(Sum4/Limit_value))*Sum4;
+
         // 1
-        /*if (Sum1>Limit_value)
+        if (Sum1>Limit_value)
         {
             Sum1 = Limit_value;
         }
@@ -128,7 +125,7 @@ public:
         if (Sum4<-Limit_value)
         {
             Sum4 = -Limit_value;
-        }*/
+        }
 
         ROS_INFO("sum1,sum2,sum3,sum4: %f,%f,%f,%f",Sum1,Sum2,Sum3,Sum4); // I_error
         //ROS_INFO("sum1,sum2,sum3,sum4: %f,%f,%f,%f",error.packet[0],error.packet[1],error.packet[2],error.packet[3]); // P_error
@@ -140,6 +137,7 @@ public:
         output.packet[3] = Ki*Sum4 + Kp*error.packet[3] + Kd*error_dot[3];
 
         //safe
+        /*
         if(theta[0]<lower_limit||theta[0]>upper_limit)
         {
             output.packet[0] = -200*abs(theta[0])/(theta[0]+0.00001);
@@ -160,13 +158,14 @@ public:
             output.packet[3] = -200*abs(theta[3])/(theta[3]+0.00001);
             ROS_INFO("\x1b[31m""Warning Leg 4""\x1b[31m");
         }
+        */
 
         //check///////////////////////////////////////////////////////////////////////////////
         printf("\x1b[34m""[checking operation(polar coordinate)]""\x1b[0m");
-        output.packet[0] = (1-Roll_alpha)*(1-Pitch_alpha)*output.packet[0];
-        output.packet[1] = (1-Roll_alpha)*(1-Pitch_alpha)*output.packet[1];
-        output.packet[2] = (1-Roll_alpha)*(1-Pitch_alpha)*output.packet[2];
-        output.packet[3] = (1-Roll_alpha)*(1-Pitch_alpha)*output.packet[3];
+        output.packet[0] = (1-Roll_alpha*Pitch_alpha)*output.packet[0];
+        output.packet[1] = (1-Roll_alpha*Pitch_alpha)*output.packet[1];
+        output.packet[2] = (1-Roll_alpha*Pitch_alpha)*output.packet[2];
+        output.packet[3] = (1-Roll_alpha*Pitch_alpha)*output.packet[3];
         ROS_INFO("[Error]: %f,%f,%f,%f",output.packet[0],output.packet[1],output.packet[2],output.packet[3]);
         pub_.publish(output);
     }

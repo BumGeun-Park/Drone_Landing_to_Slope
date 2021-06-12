@@ -6,6 +6,7 @@ find_package(catkin REQUIRED COMPONENTS
   message_generation
   roscpp
   std_msgs
+  message_filters
 )
 
 find_package(cmake_modules REQUIRED)
@@ -15,6 +16,7 @@ list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 find_package(Eigen REQUIRED)
 
 include_directories(${Eigen_INCLUDE_DIRS})
+include_directories(${Boost_INCLUDE_DIRS})
 
 
  add_message_files(
