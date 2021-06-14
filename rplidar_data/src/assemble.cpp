@@ -8,7 +8,7 @@
 #include <boost/bind.hpp>
 
 #define DEG2RAD(x) ((x)*M_PI/180)
-#define detect_angle 60 // (deg)
+#define detect_angle 30 // (deg)
 #define xb 0
 #define zb 0
 #define bias 0.01 //bias is 1cm
@@ -72,7 +72,6 @@ public:
         double Lidar_time = sec+nsec;
         double dt = Lidar_time - motor_time;
         dt = 0;
-        //ROS_INFO("%f",dt);
         phi = phi + vel*dt;
 
         rplidar_data::xyz xyz;
