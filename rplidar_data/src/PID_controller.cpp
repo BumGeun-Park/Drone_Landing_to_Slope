@@ -1,17 +1,17 @@
-#include "ros/ros.h" 
+#include "ros/ros.h"
 #include "rplidar_data/packet.h"
 #include "rplidar_data/time.h"
 #include "sensor_msgs/JointState.h"
 
-#define Ki 100 //Integral gain
-#define Kp 50 //Proportional gain
-#define Kd 10 //Derivative gain
+#define Ki 0 //Integral gain
+#define Kp 100 //Proportional gain
+#define Kd 0 //Derivative gain
 #define Limit_value 500
 
-#define Leg1 1
-#define Leg2 2
-#define Leg3 3
-#define Leg4 4
+#define Leg1 0
+#define Leg2 1
+#define Leg3 2
+#define Leg4 3
 #define Arm_length 10
 
 #define DEG2RAD(x) ((x)*M_PI/180)
@@ -127,7 +127,7 @@ public:
             Sum4 = -Limit_value;
         }
 
-        ROS_INFO("sum1,sum2,sum3,sum4: %f,%f,%f,%f",Sum1,Sum2,Sum3,Sum4); // I_error
+        //ROS_INFO("sum1,sum2,sum3,sum4: %f,%f,%f,%f",Sum1,Sum2,Sum3,Sum4); // I_error
         //ROS_INFO("sum1,sum2,sum3,sum4: %f,%f,%f,%f",error.packet[0],error.packet[1],error.packet[2],error.packet[3]); // P_error
         //ROS_INFO("sum1,sum2,sum3,sum4: %f,%f,%f,%f",error_dot[0],error_dot[1],error_dot[2],error_dot[3]); // // D_error
 

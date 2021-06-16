@@ -21,7 +21,7 @@ int main(int argc, char **argv) //노드 메인 함수
             {
                 output.x[j] = 40-i;
                 output.y[j] = -40+j;
-                output.z[j] = 200-1*((double)i)/8;
+                output.z[j] = 200-2*((double)i)/8;
                 ROS_INFO("[x,y,z] = %f,%f,%f",output.x[j],output.y[j],output.z[j]);
             }
             ros_test_pub.publish(output);

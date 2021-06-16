@@ -27,75 +27,78 @@ double dist4;
 class SubscribeAndPublish
 {
 public:
-	SubscribeAndPublish()
-	{
+    SubscribeAndPublish()
+    {
         pub_ = n_.advertise<rplidar_data::packet>("/Ground_z",1);
-	sub_ = n_.subscribe("/xyz",1,&SubscribeAndPublish::callback,this);
-	}
-	
-	void callback(const rplidar_data::xyz& xyz)
-	{
-		int count = xyz.count;
-                z.packet.resize(4);
-                for(int i = 0; i<count; ++i)
-		  {
-                    double dist_1 = sqrt(pow((x1-xyz.x[i]),2)+pow((y1-xyz.y[i]),2));
-                    double dist_2 = sqrt(pow((x2-xyz.x[i]),2)+pow((y2-xyz.y[i]),2));
-                    double dist_3 = sqrt(pow((x3-xyz.x[i]),2)+pow((y3-xyz.y[i]),2));
-                    double dist_4 = sqrt(pow((x4-xyz.x[i]),2)+pow((y4-xyz.y[i]),2));
-                    if(dist_1<dist1)
-		      {
-                        z.packet[0] = xyz.z[i];
-                        dist1 = dist_1;
+        sub_ = n_.subscribe("/xyz",1,&SubscribeAndPublish::callback,this);
+    }
 
-                        //check///////////////////////////////////////////////////////////////////////////////
-                        printf("\x1b[34m""[checking operation(polar coordinate)]""\x1b[0m");
-                        ROS_INFO("[x1,y1,z1] = [%f,%f,%f]", xyz.x[i], xyz.y[i], xyz.z[i]);
-		      }
-                    if(dist_2<dist2)
-                      {
-                        z.packet[1] = xyz.z[i];
-                        dist2 = dist_2;
+    void callback(const rplidar_data::xyz& xyz)
+    {
+        int count = xyz.count;
+        z.packet.resize(4);
+        for(int i = 0; i<count; ++i)
+        {
+            if(xyz.z[i]>30)
+            {
+                double dist_1 = sqrt(pow((x1-xyz.x[i]),2)+pow((y1-xyz.y[i]),2));
+                double dist_2 = sqrt(pow((x2-xyz.x[i]),2)+pow((y2-xyz.y[i]),2));
+                double dist_3 = sqrt(pow((x3-xyz.x[i]),2)+pow((y3-xyz.y[i]),2));
+                double dist_4 = sqrt(pow((x4-xyz.x[i]),2)+pow((y4-xyz.y[i]),2));
+                if(dist_1<dist1)
+                {
+                    z.packet[0] = xyz.z[i];
+                    dist1 = dist_1;
 
-                        //check///////////////////////////////////////////////////////////////////////////////
-                        printf("\x1b[34m""[checking operation(polar coordinate)]""\x1b[0m");
-                        ROS_INFO("[x2,y2,z2] = [%f,%f,%f]", xyz.x[i], xyz.y[i], xyz.z[i]);
-                      }
-                    if(dist_3<dist3)
-                      {
-                        z.packet[2] = xyz.z[i];
-                        dist3 = dist_3;
+                    //check///////////////////////////////////////////////////////////////////////////////
+                    printf("\x1b[34m""[checking operation(polar coordinate)]""\x1b[0m");
+                    ROS_INFO("[x1,y1,z1] = [%f,%f,%f]", xyz.x[i], xyz.y[i], xyz.z[i]);
+                }
+                if(dist_2<dist2)
+                {
+                    z.packet[1] = xyz.z[i];
+                    dist2 = dist_2;
 
-                        //check///////////////////////////////////////////////////////////////////////////////
-                        printf("\x1b[34m""[checking operation(polar coordinate)]""\x1b[0m");
-                        ROS_INFO("[x3,y3,z3] = [%f,%f,%f]", xyz.x[i], xyz.y[i], xyz.z[i]);
-                      }
-                    if(dist_4<dist4)
-                      {
-                        z.packet[3] = xyz.z[i];
-                        dist4 = dist_4;
+                    //check///////////////////////////////////////////////////////////////////////////////
+                    printf("\x1b[34m""[checking operation(polar coordinate)]""\x1b[0m");
+                    ROS_INFO("[x2,y2,z2] = [%f,%f,%f]", xyz.x[i], xyz.y[i], xyz.z[i]);
+                }
+                if(dist_3<dist3)
+                {
+                    z.packet[2] = xyz.z[i];
+                    dist3 = dist_3;
 
-                        //check///////////////////////////////////////////////////////////////////////////////
-                        printf("\x1b[34m""[checking operation(polar coordinate)]""\x1b[0m");
-                        ROS_INFO("[x4,y4,z4] = [%f,%f,%f]", xyz.x[i], xyz.y[i], xyz.z[i]);
-                      }
-		  }
-		pub_.publish(z);
-                printf("\x1b[34m""[checking operation(polar coordinate)]""\x1b[0m");
-                ROS_INFO("[dist1,dist2,dist3,dist4] = [%f,%f,%f,%f]",dist1,dist2,dist3,dist4);
-		dist1 = dist1+z_bias;
-                dist2 = dist2+z_bias;
-                dist3 = dist3+z_bias;
-                dist4 = dist4+z_bias;
-	}
+                    //check///////////////////////////////////////////////////////////////////////////////
+                    printf("\x1b[34m""[checking operation(polar coordinate)]""\x1b[0m");
+                    ROS_INFO("[x3,y3,z3] = [%f,%f,%f]", xyz.x[i], xyz.y[i], xyz.z[i]);
+                }
+                if(dist_4<dist4)
+                {
+                    z.packet[3] = xyz.z[i];
+                    dist4 = dist_4;
+
+                    //check///////////////////////////////////////////////////////////////////////////////
+                    printf("\x1b[34m""[checking operation(polar coordinate)]""\x1b[0m");
+                    ROS_INFO("[x4,y4,z4] = [%f,%f,%f]", xyz.x[i], xyz.y[i], xyz.z[i]);
+                }
+            }
+        }
+        pub_.publish(z);
+        printf("\x1b[34m""[checking operation(polar coordinate)]""\x1b[0m");
+        ROS_INFO("[dist1,dist2,dist3,dist4] = [%f,%f,%f,%f]",dist1,dist2,dist3,dist4);
+        dist1 = dist1+z_bias;
+        dist2 = dist2+z_bias;
+        dist3 = dist3+z_bias;
+        dist4 = dist4+z_bias;
+    }
 
 
 private:
-	ros::NodeHandle n_;
-        ros::Publisher pub_;
-	ros::Subscriber sub_;
-	rplidar_data::xyz xyz;
-        rplidar_data::packet z;
+    ros::NodeHandle n_;
+    ros::Publisher pub_;
+    ros::Subscriber sub_;
+    rplidar_data::xyz xyz;
+    rplidar_data::packet z;
 };
 
 int main(int argc, char **argv)
@@ -119,8 +122,8 @@ int main(int argc, char **argv)
     SubscribeAndPublish NH;
     while(ros::ok())
     {
-    ros::spinOnce();
+        ros::spinOnce();
     }
- 
+
     return 0;
 }
