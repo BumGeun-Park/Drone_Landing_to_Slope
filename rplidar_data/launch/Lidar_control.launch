@@ -1,0 +1,7 @@
+<launch>
+
+	<node pkg = "rplidar_data" type="assemble" name="assemble"/>
+	<node pkg = "rplidar_data" type="control_theta" name="control_theta"/>
+	<node pkg = "dynamixel_workbench_controllers" type="write" name="write"/>
+
+</launch>
