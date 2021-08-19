@@ -1,5 +1,0 @@
-<launch>
-
-	<node pkg = "rplidar_data" type="alpha" name="alpha"/>
-
-</launch>
