@@ -1,6 +1,6 @@
 #include "ros/ros.h" 
 #include "rplidar_data/xyz.h"
-#include "rplidar_data/alpha.h"
+#include "rplidar_data/packet.h"
 #include <iostream>
 #include <Eigen/Core>
 #include <Eigen/Dense>
@@ -8,9 +8,9 @@
 #include "math.h"
 using namespace std;
 #define mapsize 40 //one direction -> 2*mapsize+1
-#define stepsize 1 //divisor of 2*mapsize+1
+#define stepsize 9 //divisor of 2*mapsize+1
 #define initial_value 1 //initial value of map
-#define show 1 // show : 1, not show : 0
+#define show 0 // show : 1, not show : 0
 
 double local_map[(2*mapsize+1)/stepsize][(2*mapsize+1)/stepsize];
 
@@ -19,7 +19,7 @@ class SubscribeAndPublish
 public:
     SubscribeAndPublish()
     {
-        pub_ = n_.advertise<rplidar_data::alpha>("/standard_error",1);
+        pub_ = n_.advertise<rplidar_data::packet>("/Ground_z",1);
         sub_ = n_.subscribe("/xyz",1,&SubscribeAndPublish::callback,this);
     }
 
@@ -168,10 +168,44 @@ public:
         }
 
         //(St-Sr)/St = r^2 ( 0 < r^2 < 1 )
-        rplidar_data::alpha error;
-        error.alpha = (Sum_St-Sum_Sr)/Sum_St;
-        pub_.publish(error);
-        ROS_INFO("r^2 = %f[Coefficient of Determination,1(good)]",error.alpha);
+        rplidar_data::packet z;
+        z.packet.resize(4);
+        if(stepsize==1)
+        {
+            z.packet[0] = local_map[62][18];
+            z.packet[1] = local_map[18][18];
+            z.packet[2] = local_map[18][62];
+            z.packet[3] = local_map[62][62];
+        }
+        if(stepsize==3)
+        {
+            z.packet[0] = local_map[20][6];
+            z.packet[1] = local_map[6][6];
+            z.packet[2] = local_map[6][20];
+            z.packet[3] = local_map[20][20];
+        }
+        if(stepsize==9)
+        {
+
+            z.packet[0] = local_map[7][2];
+            z.packet[1] = local_map[2][2];
+            z.packet[2] = local_map[2][7];
+            z.packet[3] = local_map[7][7];
+        }
+        if(show==0)
+        {
+            printf("%f",z.packet[0]);
+            printf("\n");
+            printf("%f",z.packet[1]);
+            printf("\n");
+            printf("%f",z.packet[2]);
+            printf("\n");
+            printf("%f",z.packet[3]);
+            printf("\n");
+        }
+        double error = (Sum_St-Sum_Sr)/Sum_St;
+        pub_.publish(z);
+        ROS_INFO("r^2 = %f[Coefficient of Determination,1(good)]",error);
     }
 private:
     ros::NodeHandle n_;
@@ -206,13 +240,13 @@ int main(int argc, char **argv)
     /*cout<<"\n"<<local_map[0][0]<<endl;
     cout<<"\n"<<local_map[2][3]<<endl;
     cout<<"\n"<<local_map[10][5]<<endl;*/
-
     ros::init(argc, argv, "local_map");
     SubscribeAndPublish NH;
+    ros::Rate loop_rate(1000);
     while(ros::ok())
     {
         ros::spinOnce();
+        loop_rate.sleep();
     }
-
     return 0;
 }

@@ -4,7 +4,7 @@
 #include "sensor_msgs/JointState.h"
 
 #define Ki 0 //Integral gain
-#define Kp 100 //Proportional gain
+#define Kp 1 //Proportional gain
 #define Kd 0 //Derivative gain
 #define Limit_value 500
 
@@ -12,11 +12,11 @@
 #define Leg2 1
 #define Leg3 2
 #define Leg4 3
-#define Arm_length 10
+#define gear_radius 1.2 // 1.2cm
 
 #define DEG2RAD(x) ((x)*M_PI/180)
-#define upper_limit DEG2RAD(46) // 46 deg
-#define lower_limit DEG2RAD(-10) // -10 deg
+#define upper_limit DEG2RAD(280) // 280 deg
+#define lower_limit DEG2RAD(-260) // -260 deg
 
 double dt;
 double Sum1;
@@ -68,10 +68,10 @@ public:
         //
 
         // derivative_error
-        error_dot[0] = -10/(cos(theta[0])*cos(theta[0]))*theta_dot[0];
-        error_dot[1] = -10/(cos(theta[1])*cos(theta[1]))*theta_dot[1];
-        error_dot[2] = -10/(cos(theta[2])*cos(theta[2]))*theta_dot[2];
-        error_dot[3] = -10/(cos(theta[3])*cos(theta[3]))*theta_dot[3];
+        error_dot[0] = -gear_radius*theta_dot[0];
+        error_dot[1] = -gear_radius*theta_dot[1];
+        error_dot[2] = -gear_radius*theta_dot[2];
+        error_dot[3] = -gear_radius*theta_dot[3];
         //
 
         double e1 = error.packet[0];
@@ -225,9 +225,11 @@ int main(int argc, char **argv)
     int A = t.time.sec;
     double B = t.time.nsec/1000000000.0;
     ROS_INFO("Time checking: %f",A+B);
+    ros::Rate loop_rate(1000);
     while(ros::ok())
     {
         ros::spinOnce();
+        loop_rate.sleep();
     }
     return 0;
 }

@@ -80,9 +80,11 @@ int main(int argc, char **argv)
     printf("\x1b[37m""*****alpha*****\n""\x1b[0m");
     ros::init(argc, argv, "alpha");
     SubscribeAndPublish NH;
+    ros::Rate loop_rate(1000);
     while(ros::ok())
     {
     ros::spinOnce();
+    loop_rate.sleep();
     }
  
     return 0;

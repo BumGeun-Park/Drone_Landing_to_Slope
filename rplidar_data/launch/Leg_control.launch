@@ -1,9 +1,9 @@
 <launch>
 
-	<node pkg = "rplidar_data" type="find_min" name="find_min"/>
 	<node pkg = "dynamixel_workbench_controllers" type="leg" name="leg"/>
 	<node pkg = "rplidar_data" type="Leg_servo" name="Leg_servo"/>
 	<node pkg = "rplidar_data" type="z_dist_error" name="z_dist_error"/>
+	<node pkg = "rplidar_data" type="local_map" name="local_map"/>
 	<node pkg = "rplidar_data" type="PID_controller" name="PID_controller"/>
 
 </launch>

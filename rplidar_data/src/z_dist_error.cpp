@@ -80,11 +80,11 @@ int main(int argc, char **argv)
     Ground_z[1] = 200.0;
     Ground_z[2] = 200.0;
     Ground_z[3] = 200.0;
-    Leg_z[0] = 17.7;
-    Leg_z[1] = 17.7;
-    Leg_z[2] = 17.7;
-    Leg_z[3] = 17.7;
-    avg = 182.3;
+    Leg_z[0] = 59;
+    Leg_z[1] = 59;
+    Leg_z[2] = 59;
+    Leg_z[3] = 59;
+    avg = 141;
     printf("\n");
     printf("\n");
     printf("Distance error can be calculated in this node!\n");
@@ -100,10 +100,11 @@ int main(int argc, char **argv)
     printf("\x1b[37m""*****z_dist_error node*****\n""\x1b[0m");
     ros::init(argc, argv, "z_dist_error");
     SubscribeAndPublish NH;
+    ros::Rate loop_rate(1000);
     while(ros::ok())
     {
         ros::spinOnce();
+        loop_rate.sleep();
     }
-
     return 0;
 }

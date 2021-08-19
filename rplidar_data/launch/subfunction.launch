@@ -1,6 +1,5 @@
 <launch>
 
 	<node pkg = "rplidar_data" type="alpha" name="alpha"/>
-	<node pkg = "rplidar_data" type="local_map" name="local_map"/>
 
 </launch>

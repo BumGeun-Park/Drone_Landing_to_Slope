@@ -6,39 +6,39 @@
 class SubscribeAndPublish
 {
 public:
-        SubscribeAndPublish()
-	  {
-	    pub_ = n_.advertise<rplidar_data::alpha>("/controled_theta",1);
-	    sub_ = n_.subscribe("/xyz",1,&SubscribeAndPublish::callback,this);
-	  }
+    SubscribeAndPublish()
+    {
+        pub_ = n_.advertise<rplidar_data::alpha>("/controled_theta",1);
+        sub_ = n_.subscribe("/xyz",1,&SubscribeAndPublish::callback,this);
+    }
 
-        void callback(const rplidar_data::xyz& xyz)
-	  {
-	    int count = xyz.count;
-	    double z_sum = 0.0;
-	    int z_count = 0;
-            for(int i = 0; i<count; ++i)
-	      {
-		if(xyz.z[i]<1000.0)
-		  {
-		    z_sum = z_sum + xyz.z[i];
-		    z_count++;
-		  }
-	      }
-	    double d = z_sum/(z_count+0.001); // If z_count is zero, theta.alpha is to be Inf. So, 0.001 can prevent this.
-	    rplidar_data::alpha theta;
-            theta.alpha = atan(40/sqrt(40*40+d*d)); // 40 is half of the plane [cm]
+    void callback(const rplidar_data::xyz& xyz)
+    {
+        int count = xyz.count;
+        double z_sum = 0.0;
+        int z_count = 0;
+        for(int i = 0; i<count; ++i)
+        {
+            if(xyz.z[i]<1000.0)
+            {
+                z_sum = z_sum + xyz.z[i];
+                z_count++;
+            }
+        }
+        double d = z_sum/(z_count+0.001); // If z_count is zero, theta.alpha is to be Inf. So, 0.001 can prevent this.
+        rplidar_data::alpha theta;
+        theta.alpha = atan(40/sqrt(40*40+d*d)); // 40 is half of the plane [cm]
 
-            //check///////////////////////////////////////////////////////////////////////////////
-            printf("\x1b[34m""[checking operation(polar coordinate)]""\x1b[0m");
-            ROS_INFO("Altitude: %f",d);
-	    pub_.publish(theta);
-	  }
+        //check///////////////////////////////////////////////////////////////////////////////
+        printf("\x1b[34m""[checking operation(polar coordinate)]""\x1b[0m");
+        ROS_INFO("Altitude: %f",d);
+        pub_.publish(theta);
+    }
 
 private:
-        ros::NodeHandle n_;
-        ros::Publisher pub_;
-        ros::Subscriber sub_;
+    ros::NodeHandle n_;
+    ros::Publisher pub_;
+    ros::Subscriber sub_;
 };
 
 int main(int argc, char **argv)
@@ -56,10 +56,12 @@ int main(int argc, char **argv)
     printf("\x1b[37m""*****control_theta node*****\n""\x1b[0m");
     ros::init(argc, argv, "control_theta");
     SubscribeAndPublish NH;
+    ros::Rate loop_rate(1000);
     while(ros::ok())
     {
-    ros::spinOnce();
+        ros::spinOnce();
+        loop_rate.sleep();
     }
- 
+
     return 0;
 }

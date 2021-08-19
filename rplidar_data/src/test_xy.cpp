@@ -12,7 +12,7 @@ int main(int argc, char **argv) //노드 메인 함수
     output.z.resize(81);
     output.count = 81;
 
-
+    ros::Rate loop_rate(1000);
     while(ros::ok())
     {
         for(int i = 0;i<81;++i)
@@ -26,6 +26,7 @@ int main(int argc, char **argv) //노드 메인 함수
             }
             ros_test_pub.publish(output);
         }
+        loop_rate.sleep();
     }
     return 0;
 }

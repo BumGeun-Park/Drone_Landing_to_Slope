@@ -53,9 +53,9 @@ include_directories(
 )
 
 
- add_executable(Raw_data2Information src/Raw_data2Information.cpp)
- add_dependencies(Raw_data2Information ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
- target_link_libraries(Raw_data2Information ${catkin_LIBRARIES} ${Eigen_LIBRARIES})
+ #add_executable(Raw_data2Information src/Raw_data2Information.cpp)
+ #add_dependencies(Raw_data2Information ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+ #target_link_libraries(Raw_data2Information ${catkin_LIBRARIES} ${Eigen_LIBRARIES})
 
 
  add_executable(assemble src/assemble.cpp)
@@ -63,14 +63,14 @@ include_directories(
  target_link_libraries(assemble ${catkin_LIBRARIES} ${Eigen_LIBRARIES})
 
 
- add_executable(servo_motor src/servo_motor.cpp)
- add_dependencies(servo_motor ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
- target_link_libraries(servo_motor ${catkin_LIBRARIES} ${Eigen_LIBRARIES})
+ #add_executable(servo_motor src/servo_motor.cpp)
+ #add_dependencies(servo_motor ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+ #target_link_libraries(servo_motor ${catkin_LIBRARIES} ${Eigen_LIBRARIES})
 
 
- add_executable(find_min src/find_min.cpp)
- add_dependencies(find_min ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
- target_link_libraries(find_min ${catkin_LIBRARIES} ${Eigen_LIBRARIES})
+ #add_executable(find_min src/find_min.cpp)
+ #add_dependencies(find_min ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+ #target_link_libraries(find_min ${catkin_LIBRARIES} ${Eigen_LIBRARIES})
 
 
  add_executable(alpha src/alpha.cpp)
