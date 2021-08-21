@@ -4,7 +4,7 @@
 #include "sensor_msgs/JointState.h"
 
 // Hardware spec
-#define motor_z 51
+#define motor_z 10
 #define gear_radius 1.2 // 1.2cm
 #define gear_bias 0 // 0 rad
 #define Init_length 8
@@ -17,7 +17,6 @@
 #define DEG2RAD(x) ((x)*M_PI/180)
 #define RAD2DATA(x) ((x)*(2047/M_PI)+2048)
 #define DATA2RAD(x) ((x)-2048)*(M_PI/2047)
-
 
 class SubscribeAndPublish
 {

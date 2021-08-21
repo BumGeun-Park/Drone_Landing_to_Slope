@@ -3,8 +3,8 @@
 #include "rplidar_data/time.h"
 #include "sensor_msgs/JointState.h"
 
-#define Ki 0 //Integral gain
-#define Kp 1 //Proportional gain
+#define Ki 0.2 //Integral gain
+#define Kp 10 //Proportional gain
 #define Kd 0 //Derivative gain
 #define Limit_value 500
 

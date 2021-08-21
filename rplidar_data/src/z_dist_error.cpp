@@ -35,7 +35,7 @@ public:
 
         //check///////////////////////////////////////////////////////////////////////////////
         //printf("\x1b[34m""[checking operation(polar coordinate)]""\x1b[0m");
-        //ROS_INFO("[Error1,Error2,Error3,Error4]: %f,%f,%f,%f",error.packet[0],error.packet[1],error.packet[2],error.packet[3]);
+        ROS_INFO("[Error1,Error2,Error3,Error4]: %f,%f,%f,%f",error.packet[0],error.packet[1],error.packet[2],error.packet[3]);
         //ROS_INFO("[z1,z2,z3,z4]: %f,%f,%f,%f",dist[0],dist[1],dist[2],dist[3]);
         pub_.publish(error);
     }
