@@ -10,9 +10,11 @@ using namespace std;
 #define mapsize 40 //one direction -> 2*mapsize+1
 #define stepsize 9 //divisor of 2*mapsize+1
 #define initial_value 1 //initial value of map
-#define show 0 // show : 1, not show : 0
+#define show 1 // show : 1, not show : 0
 
 double local_map[(2*mapsize+1)/stepsize][(2*mapsize+1)/stepsize];
+double grid_sum[(2*mapsize+1)/stepsize][(2*mapsize+1)/stepsize];
+double grid_count[(2*mapsize+1)/stepsize][(2*mapsize+1)/stepsize];
 
 class SubscribeAndPublish
 {
@@ -38,6 +40,14 @@ public:
         double YZ = 0.0;
         double avg_z = 0.0;
 
+        for(int j=0; j<(2*mapsize+1)/stepsize;++j)
+        {
+            for(int i=0; i<(2*mapsize+1)/stepsize;++i)
+            {
+                grid_sum[i][j] = 0;
+                grid_count[i][j] = 0;
+            }
+        }
         //local_mapping
         for(int i = 0; i<input.count;++i)
         {
@@ -47,17 +57,35 @@ public:
                 {
                     for(int yy = 0;yy<(2*mapsize+1)/stepsize;++yy)
                     {
-
                         if(-mapsize+stepsize*xx <= input.x[i] && input.x[i] < -mapsize+stepsize*(xx+1) && -mapsize+stepsize*yy <= input.y[i] && input.y[i] < -mapsize+stepsize*(yy+1))
                         {
-                            local_map[xx][yy] = input.z[i];
+                            grid_sum[xx][yy] = grid_sum[xx][yy] + input.z[i];
+                            grid_count[xx][yy] = grid_count[xx][yy] + 1;
                         }
                     }
                 }
             }
         }
+        for(int i = 0; i<input.count;++i)
+        {
+            for(int xx = 0;xx<(2*mapsize+1)/stepsize;++xx)
+            {
+                for(int yy = 0;yy<(2*mapsize+1)/stepsize;++yy)
+                {
+                    if(-mapsize+stepsize*xx <= input.x[i] && input.x[i] < -mapsize+stepsize*(xx+1) && -mapsize+stepsize*yy <= input.y[i] && input.y[i] < -mapsize+stepsize*(yy+1))
+                    {
+                        if(grid_count!=0)
+                        {
+                            local_map[xx][yy] = grid_sum[xx][yy]/grid_count[xx][yy];
+                        }
+                    }
+                }
+            }
+
+        }
 
         //smoothing
+        /*
         for(int i = 0;i<(2*mapsize+1)/stepsize;++i)
         {
             for(int j = 0;j<(2*mapsize+1)/stepsize;++j)
@@ -113,7 +141,7 @@ public:
                     }
                 }
             }
-        }
+        }*/
 
         //calculate b (Ax = b) , calculate avg_z
         for(int i=0; i<(2*mapsize+1)/stepsize;i++)
@@ -172,26 +200,27 @@ public:
         z.packet.resize(4);
         if(stepsize==1)
         {
-            z.packet[0] = local_map[62][18];
-            z.packet[1] = local_map[18][18];
-            z.packet[2] = local_map[18][62];
-            z.packet[3] = local_map[62][62];
+            z.packet[0] = local_map[53][27];
+            z.packet[1] = local_map[27][27];
+            z.packet[2] = local_map[27][53];
+            z.packet[3] = local_map[53][53];
         }
         if(stepsize==3)
         {
-            z.packet[0] = local_map[20][6];
-            z.packet[1] = local_map[6][6];
-            z.packet[2] = local_map[6][20];
-            z.packet[3] = local_map[20][20];
+            z.packet[0] = local_map[18][8];
+            z.packet[1] = local_map[8][8];
+            z.packet[2] = local_map[8][18];
+            z.packet[3] = local_map[18][18];
         }
         if(stepsize==9)
         {
 
-            z.packet[0] = local_map[7][2];
-            z.packet[1] = local_map[2][2];
-            z.packet[2] = local_map[2][7];
-            z.packet[3] = local_map[7][7];
+            z.packet[0] = local_map[5][3];
+            z.packet[1] = local_map[3][3];
+            z.packet[2] = local_map[3][5];
+            z.packet[3] = local_map[5][5];
         }
+
         if(show==0)
         {
             printf("%f",z.packet[0]);
@@ -217,7 +246,6 @@ private:
 
 int main(int argc, char **argv)
 {
-
     for(int j=0; j<(2*mapsize+1)/stepsize;++j)
     {
         for(int i=0; i<(2*mapsize+1)/stepsize;++i)

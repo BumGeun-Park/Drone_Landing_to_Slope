@@ -1,5 +1,7 @@
 #include "ros/ros.h"  //ROS 기본 헤더파일
 #include "rplidar_data/xyz.h"
+#define DEG2RAD(x) ((x)*M_PI/180)
+#define slope DEG2RAD(20) // 20 [deg]
 
 int main(int argc, char **argv) //노드 메인 함수
 {
@@ -21,7 +23,7 @@ int main(int argc, char **argv) //노드 메인 함수
             {
                 output.x[j] = 40-i;
                 output.y[j] = -40+j;
-                output.z[j] = 200-2*((double)i)/8;
+                output.z[j] = 200 - 80*tan(slope)*((double)i/80);
                 ROS_INFO("[x,y,z] = %f,%f,%f",output.x[j],output.y[j],output.z[j]);
             }
             ros_test_pub.publish(output);
